@@ -3,7 +3,7 @@
 #include <math.h>
 #include <unistd.h>
 double childOneProcess ( double x , double y , double dardos , int k , double aC);
-double childTwoProcess ( double x , double y , double dardos , int k , double aC);
+double childTwoProcess ( double x , double y , double dardos , int k , double aC2);
 
 
 void main()
@@ -18,7 +18,9 @@ void main()
 	double pi = 0;
 	pid_t  pid;
 	pid_t ppid;
-	
+	FILE *arquivo;
+	double *buffer  = malloc(sizeof(double));
+
 	pid = fork();
 	
 	
@@ -43,8 +45,23 @@ void main()
 		else
 		{
 			sleep(1);
+			
+			
+			
+
+			
+			arquivo = fopen("aC.txt" , "rb");
+			fread(buffer ,sizeof(double), 1 , arquivo);
+			aC = buffer[0];
+			
+			arquivo = fopen("aC2.txt" , "rb");
+			fread(buffer , sizeof(double), 1 , arquivo);
+			aC2 = buffer[0];
+		
+			fclose(arquivo);
+			
 			pi = 2 * ((aC + aC2)/dardos);
-			printf("O valor de Pi é %f \n" , pi);
+			printf("O valor de Pi é %f \n" , pi);			
 		}
 		
 	
